@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Enum\RolesEnum;
 use App\Enum\PermissionsEnum;
+use App\Models\Question;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -24,17 +25,18 @@ class DatabaseSeeder extends Seeder
         $teacherRole = Role::create(['name' => RolesEnum::Teacher->value]);
 
         // Define permissions
-        $manageFeaturesPermission = Permission::create(['name' => PermissionsEnum::ManageFeatures->value]);
         $manageUsersPermission = Permission::create(['name' => PermissionsEnum::ManageUsers->value]);
-        
+
         $askQuestionsPermission = Permission::create(['name' => PermissionsEnum::AskQuestions->value]);
+        $manageQuestionsPermission = Permission::create(['name' => PermissionsEnum::ManageQuestions->value]);
+
         $manageAnswersPermission = Permission::create(['name' => PermissionsEnum::ManageAnswers->value]);
         $upvoteDownvotePermission = Permission::create(['name' => PermissionsEnum::UpvoteDownvote->value]);
 
         // Assign permissions to roles
-        $studentRole->syncPermissions([$askQuestionsPermission, $upvoteDownvotePermission]);
+        $studentRole->syncPermissions([$askQuestionsPermission, $upvoteDownvotePermission, $manageQuestionsPermission]);
         $teacherRole->syncPermissions([$askQuestionsPermission, $manageAnswersPermission, $upvoteDownvotePermission]);
-        $adminRole->syncPermissions([$manageFeaturesPermission, $manageUsersPermission]);
+        $adminRole->syncPermissions([$manageQuestionsPermission, $manageUsersPermission, $manageAnswersPermission]);
         
 
         // Create users
@@ -52,7 +54,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin User',
             'email' => 'admin@example.com',
         ])->assignRole(RolesEnum::Admin);
-
-
+        
+        Question::factory(50)->create();
     }
 }
