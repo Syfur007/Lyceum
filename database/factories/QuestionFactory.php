@@ -18,7 +18,7 @@ class QuestionFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->withFaker()->text(),
+            'title' => $this->withFaker()->text(),
             'description' => $this->withFaker()->text(2000),
             'user_id' => User::where('email', 'student@example.com')->first()->id,
         ];

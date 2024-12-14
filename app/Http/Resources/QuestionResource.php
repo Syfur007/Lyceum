@@ -16,7 +16,7 @@ class QuestionResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
+            'title' => $this->title,
             'description' => $this->description,
             'user' => new UserResource($this->user),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
